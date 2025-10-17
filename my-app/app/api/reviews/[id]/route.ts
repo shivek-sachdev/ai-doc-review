@@ -16,15 +16,35 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: "Session not found" }, { status: 404 })
     }
 
-    const resultsResult = await sql`
-      SELECT * FROM review_results
+    // Revisions list
+    const revisions = await sql`
+      SELECT id, revision_number, status, created_at, completed_at
+      FROM review_revisions
       WHERE session_id = ${id}
-      ORDER BY sequence_order
+      ORDER BY revision_number
     `
+
+    // Results: default to latest revision if available
+    let resultsResult: any[] = []
+    if (revisions.length > 0) {
+      const latestRevisionId = revisions[revisions.length - 1].id
+      resultsResult = await sql`
+        SELECT * FROM review_results
+        WHERE session_id = ${id} AND revision_id = ${latestRevisionId}
+        ORDER BY sequence_order
+      `
+    } else {
+      resultsResult = await sql`
+        SELECT * FROM review_results
+        WHERE session_id = ${id}
+        ORDER BY sequence_order
+      `
+    }
 
     return NextResponse.json({
       session: sessionResult[0],
       results: resultsResult,
+      revisions,
     })
   } catch (error) {
     console.error("Failed to fetch review session:", error)
