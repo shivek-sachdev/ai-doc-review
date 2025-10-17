@@ -4,7 +4,9 @@ import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { AlertCircle, Loader2, RefreshCw, FileText, AlertTriangle, XCircle, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react"
+import { AlertCircle, Loader2, RefreshCw, FileText, AlertTriangle, XCircle, CheckCircle2, ChevronDown, ChevronUp, Plus } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { RevisionUploader } from "@/components/revision-uploader"
 import type { ReviewResult } from "@/lib/db"
 
 interface ReviewResultsEnhancedProps {
@@ -28,6 +30,7 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
   const [loading, setLoading] = useState(true)
   const [processing, setProcessing] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const [openAddRevision, setOpenAddRevision] = useState(false)
 
   useEffect(() => {
     loadResults()
@@ -94,6 +97,9 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
   }
 
   const { session, results } = data
+  const currentRevisionNumber = (data as any).revisions && (data as any).revisions.length > 0
+    ? (data as any).revisions[(data as any).revisions.length - 1].revision_number
+    : 1
 
   // Extract all issues for summary
   function extractAllIssues() {
@@ -183,6 +189,7 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-2xl font-bold text-foreground">{session.document_name}</h1>
+              <Badge variant="outline">Rev {currentRevisionNumber}</Badge>
               <Badge variant={session.status === "completed" ? "default" : "secondary"}>
                 {session.status}
               </Badge>
@@ -193,6 +200,10 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
           </div>
           
           <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setOpenAddRevision(true)} className="gap-2">
+              <Plus className="h-4 w-4" />
+              Add Revision
+            </Button>
             <Button variant="outline" onClick={handleReprocess} disabled={processing}>
               <RefreshCw className={`h-4 w-4 mr-2 ${processing ? 'animate-spin' : ''}`} />
               Reprocess
@@ -200,6 +211,23 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
           </div>
         </div>
       </Card>
+
+      {/* Add Revision Dialog */}
+      <Dialog open={openAddRevision} onOpenChange={setOpenAddRevision}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Create New Revision</DialogTitle>
+          </DialogHeader>
+          <RevisionUploader
+            sessionId={session.id}
+            onCreated={async (rid) => {
+              setOpenAddRevision(false)
+              await fetch(`/api/reviews/${session.id}/revisions/${rid}/process`, { method: 'POST' })
+              loadResults()
+            }}
+          />
+        </DialogContent>
+      </Dialog>
 
       {/* Processing State */}
       {session.status === "processing" && (
