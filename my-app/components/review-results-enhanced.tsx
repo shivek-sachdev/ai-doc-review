@@ -220,9 +220,8 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
           </DialogHeader>
           <RevisionUploader
             sessionId={session.id}
-            onCreated={async (rid) => {
+            onProcessed={() => {
               setOpenAddRevision(false)
-              await fetch(`/api/reviews/${session.id}/revisions/${rid}/process`, { method: 'POST' })
               loadResults()
             }}
           />

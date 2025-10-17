@@ -16,13 +16,16 @@ interface TemplateNode {
 interface RevisionUploaderProps {
   sessionId: string
   templateNodes?: TemplateNode[]
-  onCreated: (revisionId: string) => void
+  onCreated?: (revisionId: string) => void
+  onProcessed?: (revisionId: string) => void
 }
 
-export function RevisionUploader({ sessionId, templateNodes = [], onCreated }: RevisionUploaderProps) {
+export function RevisionUploader({ sessionId, templateNodes = [], onCreated, onProcessed }: RevisionUploaderProps) {
   const [uploads, setUploads] = useState<Map<string, { file: File, base64: string }>>(new Map())
   const [creating, setCreating] = useState(false)
   const [nodes, setNodes] = useState<TemplateNode[]>(templateNodes)
+  const [processing, setProcessing] = useState(false)
+  const [statusText, setStatusText] = useState<string>("")
 
   useEffect(() => {
     async function loadNodes() {
@@ -78,11 +81,47 @@ export function RevisionUploader({ sessionId, templateNodes = [], onCreated }: R
       const res = await fetch(`/api/reviews/${sessionId}/revisions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       if (!res.ok) throw new Error('Failed to create revision')
       const json = await res.json()
-      onCreated(json.revision_id)
+      onCreated && onCreated(json.revision_id)
+
+      // Immediately process and show inline progress
+      setProcessing(true)
+      setStatusText('Starting processing...')
+      const processRes = await fetch(`/api/reviews/${sessionId}/revisions/${json.revision_id}/process`, { method: 'POST' })
+      if (!processRes.ok) throw new Error('Failed to start processing')
+
+      // Poll status until completed/failed
+      await pollRevisionUntilDone(json.revision_id)
+      onProcessed && onProcessed(json.revision_id)
     } catch (e) {
       alert('Failed to create revision')
     } finally {
       setCreating(false)
+      setProcessing(false)
+      setStatusText("")
+    }
+  }
+
+  async function pollRevisionUntilDone(revisionId: string) {
+    // Poll specific revision endpoint
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      try {
+        setStatusText('Processing...')
+        const r = await fetch(`/api/reviews/${sessionId}/revisions/${revisionId}`)
+        if (r.ok) {
+          const data = await r.json()
+          const status = (data.revision?.status || '').toLowerCase()
+          if (status === 'completed') {
+            setStatusText('Completed')
+            break
+          }
+          if (status === 'failed') {
+            setStatusText('Failed')
+            break
+          }
+        }
+      } catch {}
+      await new Promise(res => setTimeout(res, 2000))
     }
   }
 
@@ -123,11 +162,14 @@ export function RevisionUploader({ sessionId, templateNodes = [], onCreated }: R
           )
         })}
       </div>
-      <div className="mt-3">
-        <Button onClick={createRevision} disabled={creating || uploads.size === 0} className="gap-2">
-          {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileUp className="h-4 w-4" />}
-          Create revision & continue
+      <div className="mt-3 flex items-center gap-3">
+        <Button onClick={createRevision} disabled={creating || processing || uploads.size === 0} className="gap-2">
+          {(creating || processing) ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileUp className="h-4 w-4" />}
+          {processing ? 'Processing...' : creating ? 'Creating...' : 'Create revision & process'}
         </Button>
+        {(creating || processing) && (
+          <span className="text-sm text-muted-foreground">{statusText}</span>
+        )}
       </div>
     </Card>
   )
