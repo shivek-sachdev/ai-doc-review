@@ -90,9 +90,6 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
         <AlertCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
         <p className="text-muted-foreground text-lg">Failed to load review session</p>
       </Card>
-
-      {/* Slot directly below header */}
-      {belowHeader}
     )
   }
 
