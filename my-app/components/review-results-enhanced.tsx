@@ -41,7 +41,23 @@ export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsE
       const response = await fetch(`/api/reviews/${sessionId}`)
       if (response.ok) {
         const sessionData = await response.json()
-        setData(sessionData)
+        // If revisions exist, explicitly load results for the latest revision
+        if (sessionData.revisions && sessionData.revisions.length > 0) {
+          const latest = sessionData.revisions[sessionData.revisions.length - 1]
+          try {
+            const r = await fetch(`/api/reviews/${sessionId}/revisions/${latest.id}`)
+            if (r.ok) {
+              const rev = await r.json()
+              setData({ ...sessionData, results: rev.results || [] })
+            } else {
+              setData(sessionData)
+            }
+          } catch {
+            setData(sessionData)
+          }
+        } else {
+          setData(sessionData)
+        }
 
         if (sessionData.session.status === "processing") {
           setProcessing(true)
