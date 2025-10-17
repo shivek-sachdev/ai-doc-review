@@ -54,14 +54,14 @@ export function NodeList() {
   }
 
   if (loading) {
-    return <div className="text-muted-foreground">Loading nodes...</div>
+    return <div className="text-muted-foreground">Loading documents...</div>
   }
 
   if (nodes.length === 0) {
     return (
       <Card className="p-12 text-center">
         <p className="text-muted-foreground text-lg mb-4">No document sections yet</p>
-        <p className="text-muted-foreground mb-6">Create your first section to start building document templates</p>
+        <p className="text-muted-foreground mb-6">Create your first document to start building rules</p>
         <Link href="/nodes/new">
           <Button>Create Your First Document</Button>
         </Link>

@@ -100,13 +100,13 @@ export function TemplateNodeBuilder({
   return (
     <Card className="p-8">
       <div className="mb-6">
-        <h3 className="text-xl font-semibold text-foreground mb-2">Template Sections</h3>
+        <h3 className="text-xl font-semibold text-foreground mb-2">Rule Sections</h3>
         <p className="text-muted-foreground">Add and sequence document sections with AI review instructions</p>
       </div>
 
-      {/* Add Node Section */}
+      {/* Add Section */}
       <div className="mb-6 p-4 bg-muted rounded-lg">
-        <Label className="mb-2 block">Add Section to Template</Label>
+        <Label className="mb-2 block">Add Section to Rules</Label>
         <div className="flex gap-2">
           <Select value={selectedNodeId} onValueChange={setSelectedNodeId}>
             <SelectTrigger className="flex-1">
@@ -130,7 +130,7 @@ export function TemplateNodeBuilder({
       {/* Template Nodes List */}
       {templateNodes.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <p>No sections added yet. Add your first section to start building the template.</p>
+          <p>No sections added yet. Add your first section to start building the rules.</p>
         </div>
       ) : (
         <div className="space-y-3">

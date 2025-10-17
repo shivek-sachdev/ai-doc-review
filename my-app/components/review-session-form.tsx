@@ -46,7 +46,7 @@ export function ReviewSessionForm() {
     e.preventDefault()
 
     if (!file || !selectedTemplateId) {
-      alert("Please select a template and upload a document")
+      alert("Please select rules and upload a document")
       return
     }
 
@@ -88,10 +88,10 @@ export function ReviewSessionForm() {
     <Card className="p-8">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="template">Select Review Template *</Label>
+          <Label htmlFor="template">Select Rules *</Label>
           <Select value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
             <SelectTrigger>
-              <SelectValue placeholder="Choose a template" />
+              <SelectValue placeholder="Choose rules" />
             </SelectTrigger>
             <SelectContent>
               {templates.map((template) => (
@@ -102,7 +102,7 @@ export function ReviewSessionForm() {
             </SelectContent>
           </Select>
           {templates.length === 0 && (
-            <p className="text-sm text-muted-foreground">No templates available. Please create a template first.</p>
+            <p className="text-sm text-muted-foreground">No rules available. Please create a rule first.</p>
           )}
         </div>
 
@@ -140,8 +140,8 @@ export function ReviewSessionForm() {
           <h4 className="font-medium text-foreground mb-2">What happens next?</h4>
           <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
             <li>Your document will be uploaded securely</li>
-            <li>Google Gemini AI will analyze each section based on your template</li>
-            <li>You'll receive detailed feedback for each document node</li>
+            <li>Google Gemini AI will analyze each section based on your rules</li>
+            <li>You'll receive detailed feedback for each document section</li>
             <li>Results will be available in the review session page</li>
           </ol>
         </div>

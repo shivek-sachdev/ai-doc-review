@@ -15,13 +15,13 @@ export default function EditTemplatePage({ params }: { params: Promise<{ id: str
         <Link href="/templates">
           <Button variant="ghost" className="mb-6 gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Templates
+            Back to Rules
           </Button>
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Edit Review Template</h1>
-          <p className="text-muted-foreground text-lg">Update your template configuration</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Edit Rule</h1>
+          <p className="text-muted-foreground text-lg">Update your rule configuration</p>
         </div>
 
         <TemplateForm templateId={resolvedParams.id} />

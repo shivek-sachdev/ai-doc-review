@@ -72,7 +72,7 @@ export function TemplateForm({ templateId }: TemplateFormProps) {
     e.preventDefault()
 
     if (templateNodes.length === 0) {
-      alert("Please add at least one node to the template")
+      alert("Please add at least one document to the rule")
       return
     }
 
@@ -94,11 +94,11 @@ export function TemplateForm({ templateId }: TemplateFormProps) {
       if (response.ok) {
         router.push("/templates")
       } else {
-        alert("Failed to save template")
+        alert("Failed to save rule")
       }
     } catch (error) {
-      console.error("Failed to save template:", error)
-      alert("Failed to save template")
+      console.error("Failed to save rule:", error)
+      alert("Failed to save rule")
     } finally {
       setLoading(false)
     }
@@ -109,12 +109,12 @@ export function TemplateForm({ templateId }: TemplateFormProps) {
       <Card className="p-8">
         <div className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="name">Template Name *</Label>
+            <Label htmlFor="name">Rule Name *</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="e.g., Standard Research Report, Business Proposal Review"
+              placeholder="e.g., Standard Research Report Rules, Business Proposal Rules"
               required
             />
           </div>
@@ -126,7 +126,7 @@ export function TemplateForm({ templateId }: TemplateFormProps) {
                 id="description"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Brief description of this template's purpose"
+                placeholder="Brief description of these rules"
                 rows={3}
                 className="pr-10"
               />
@@ -149,7 +149,7 @@ export function TemplateForm({ templateId }: TemplateFormProps) {
 
       <div className="flex gap-4">
         <Button type="submit" disabled={loading} size="lg">
-          {loading ? "Saving..." : templateId ? "Update Template" : "Create Template"}
+          {loading ? "Saving..." : templateId ? "Update Rule" : "Create Rule"}
         </Button>
         <Button type="button" variant="outline" onClick={() => router.push("/templates")} size="lg">
           Cancel

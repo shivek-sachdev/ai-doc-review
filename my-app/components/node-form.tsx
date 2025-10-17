@@ -79,7 +79,7 @@ export function NodeForm({ nodeId }: NodeFormProps) {
     <Card className="p-8">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="name">Node Name *</Label>
+          <Label htmlFor="name">Document Name *</Label>
           <Input
             id="name"
             value={formData.name}
@@ -138,7 +138,7 @@ export function NodeForm({ nodeId }: NodeFormProps) {
 
         <div className="flex gap-4">
           <Button type="submit" disabled={loading} size="lg">
-            {loading ? "Saving..." : nodeId ? "Update Node" : "Create Node"}
+            {loading ? "Saving..." : nodeId ? "Update Document" : "Create Document"}
           </Button>
           <Button type="button" variant="outline" onClick={() => router.push("/nodes")} size="lg">
             Cancel

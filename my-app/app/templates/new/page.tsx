@@ -10,13 +10,13 @@ export default function NewTemplatePage() {
         <Link href="/templates">
           <Button variant="ghost" className="mb-6 gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Templates
+            Back to Rules
           </Button>
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">Create Review Template</h1>
-          <p className="text-muted-foreground text-lg">Build a template by adding and sequencing document nodes</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Create Rule</h1>
+          <p className="text-muted-foreground text-lg">Build rules by adding and sequencing document sections</p>
         </div>
 
         <TemplateForm />

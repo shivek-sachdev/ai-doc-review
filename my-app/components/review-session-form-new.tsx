@@ -124,7 +124,7 @@ export function ReviewSessionFormNew() {
     e.preventDefault()
 
     if (!selectedTemplateId || !documentName.trim()) {
-      alert("Please select a template and enter a document name")
+      alert("Please select rules and enter a document name")
       return
     }
 
@@ -184,10 +184,10 @@ export function ReviewSessionFormNew() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="template">Select Review Template *</Label>
+            <Label htmlFor="template">Select Rules *</Label>
             <Select value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
               <SelectTrigger>
-                <SelectValue placeholder="Choose a template" />
+                <SelectValue placeholder="Choose rules" />
               </SelectTrigger>
               <SelectContent>
                 {templates.map((template) => (
@@ -199,7 +199,7 @@ export function ReviewSessionFormNew() {
             </Select>
             {templates.length === 0 && (
               <p className="text-sm text-muted-foreground">
-                No templates available. Please create a template first.
+                No rules available. Please create a rule first.
               </p>
             )}
           </div>
@@ -209,11 +209,9 @@ export function ReviewSessionFormNew() {
       {selectedTemplateId && (
         <Card className="p-8">
           <div className="mb-6">
-            <h3 className="text-xl font-semibold text-foreground mb-2">
-              Upload Document Sections
-            </h3>
+            <h3 className="text-xl font-semibold text-foreground mb-2">Upload Document Sections</h3>
             <p className="text-muted-foreground">
-              Upload the corresponding section of your document for each node below. Each section will be reviewed individually.
+              Upload the corresponding section of your document for each rule below. Each section will be reviewed individually.
             </p>
           </div>
 

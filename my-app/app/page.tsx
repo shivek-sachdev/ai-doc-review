@@ -27,7 +27,7 @@ export default function HomePage() {
             </Link>
             <Link href="/templates">
               <Button size="lg" variant="outline" className="gap-2 bg-transparent">
-                Browse Templates
+                Browse Rules
               </Button>
             </Link>
           </div>
@@ -39,7 +39,7 @@ export default function HomePage() {
             <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
               <Layers className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">Document Sections</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-2">Documents</h3>
             <p className="text-muted-foreground mb-4">
               Define reusable building blocks for your documents. Create sections like Executive Summary,
               Methodology, and Findings.
@@ -56,13 +56,13 @@ export default function HomePage() {
             <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
               <FolderOpen className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">Review Templates</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-2">Rules</h3>
             <p className="text-muted-foreground mb-4">
-              Build custom templates by sequencing nodes and adding AI-specific review instructions for each section.
+              Build rules by sequencing document sections and adding AI-specific review instructions for each section.
             </p>
             <Link href="/templates">
               <Button variant="ghost" className="gap-2 p-0 h-auto">
-                Create Template
+                Manage Rules
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -101,7 +101,7 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-primary-foreground font-bold">2</span>
               </div>
-              <h4 className="font-semibold text-foreground mb-2">Build Template</h4>
+              <h4 className="font-semibold text-foreground mb-2">Build Rules</h4>
               <p className="text-sm text-muted-foreground">Sequence sections with AI instructions</p>
             </div>
 

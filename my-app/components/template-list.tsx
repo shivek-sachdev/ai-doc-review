@@ -58,17 +58,17 @@ export function TemplateList() {
   }
 
   if (loading) {
-    return <div className="text-muted-foreground">Loading templates...</div>
+    return <div className="text-muted-foreground">Loading rules...</div>
   }
 
   if (templates.length === 0) {
     return (
       <Card className="p-12 text-center">
         <FileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-        <p className="text-muted-foreground text-lg mb-4">No templates yet</p>
-        <p className="text-muted-foreground mb-6">Create your first template to start reviewing documents</p>
+        <p className="text-muted-foreground text-lg mb-4">No rules yet</p>
+        <p className="text-muted-foreground mb-6">Create your first rule to start reviewing documents</p>
         <Link href="/templates/new">
-          <Button>Create Your First Template</Button>
+          <Button>Create Your First Rule</Button>
         </Link>
       </Card>
     )
@@ -81,7 +81,7 @@ export function TemplateList() {
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <h3 className="text-xl font-semibold text-foreground mb-2">{template.name}</h3>
-              <Badge variant="secondary">{template.node_count || 0} nodes</Badge>
+              <Badge variant="secondary">{template.node_count || 0} sections</Badge>
             </div>
             <div className="flex gap-2">
               <Link href={`/templates/${template.id}/edit`}>
@@ -99,7 +99,7 @@ export function TemplateList() {
 
           <Link href={`/reviews/new?template=${template.id}`}>
             <Button className="w-full mt-4 bg-transparent" variant="outline">
-              Use Template
+              Use Rules
             </Button>
           </Link>
         </Card>

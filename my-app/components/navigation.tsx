@@ -7,8 +7,8 @@ import { FileText, Layers, FolderOpen, Settings, Home } from "lucide-react"
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/nodes", label: "Nodes", icon: Layers },
-  { href: "/templates", label: "Templates", icon: FolderOpen },
+  { href: "/nodes", label: "Documents", icon: Layers },
+  { href: "/templates", label: "Rules", icon: FolderOpen },
   { href: "/reviews", label: "Reviews", icon: FileText },
   { href: "/settings", label: "Settings", icon: Settings },
 ]
