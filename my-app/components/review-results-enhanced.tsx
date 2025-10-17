@@ -177,11 +177,11 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
   return (
     <div>
       {/* Header */}
-      <Card className="p-6 mb-6">
+      <Card className="p-4 mb-4">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-foreground">{session.document_name}</h1>
+              <h1 className="text-2xl font-bold text-foreground">{session.document_name}</h1>
               <Badge variant={session.status === "completed" ? "default" : "secondary"}>
                 {session.status}
               </Badge>
@@ -202,50 +202,50 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
 
       {/* Processing State */}
       {session.status === "processing" && (
-        <Card className="p-8 mb-6 text-center">
-          <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
-          <p className="text-lg font-medium text-foreground mb-2">Processing Review...</p>
-          <p className="text-muted-foreground">This may take a few minutes. Results will appear automatically.</p>
+        <Card className="p-6 mb-4 text-center">
+          <Loader2 className="h-10 w-10 animate-spin mx-auto mb-3 text-primary" />
+          <p className="text-base font-medium text-foreground mb-1">Processing Review...</p>
+          <p className="text-sm text-muted-foreground">This may take a few minutes. Results will appear automatically.</p>
         </Card>
       )}
 
       {/* Review Summary */}
       {session.status === "completed" && results.length > 0 && (
         <>
-          <Card className="p-6 mb-6">
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <FileText className="h-6 w-6" />
+          <Card className="p-4 mb-4">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <FileText className="h-5 w-5" />
               Review Summary
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="flex items-center gap-4 p-6 bg-red-50 dark:bg-red-950/20 rounded-lg border-2 border-red-200 dark:border-red-900">
-                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-red-600 flex items-center justify-center">
-                  <XCircle className="h-7 w-7 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="flex items-center gap-3 p-4 bg-red-50 dark:bg-red-950/20 rounded-lg border border-red-200 dark:border-red-900">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-600 flex items-center justify-center">
+                  <XCircle className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-red-600">{allCritical.length}</div>
-                  <div className="text-sm font-medium text-red-700 dark:text-red-400">Critical Issues</div>
+                  <div className="text-2xl font-bold text-red-600">{allCritical.length}</div>
+                  <div className="text-xs font-medium text-red-700 dark:text-red-400">Critical Issues</div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-4 p-6 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border-2 border-yellow-200 dark:border-yellow-900">
-                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-yellow-600 flex items-center justify-center">
-                  <AlertTriangle className="h-7 w-7 text-white" />
+              <div className="flex items-center gap-3 p-4 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border border-yellow-200 dark:border-yellow-900">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-600 flex items-center justify-center">
+                  <AlertTriangle className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-yellow-600">{allWarnings.length}</div>
-                  <div className="text-sm font-medium text-yellow-700 dark:text-yellow-400">Warnings</div>
+                  <div className="text-2xl font-bold text-yellow-600">{allWarnings.length}</div>
+                  <div className="text-xs font-medium text-yellow-700 dark:text-yellow-400">Warnings</div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-4 p-6 bg-green-50 dark:bg-green-950/20 rounded-lg border-2 border-green-200 dark:border-green-900">
-                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-green-600 flex items-center justify-center">
-                  <CheckCircle2 className="h-7 w-7 text-white" />
+              <div className="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-900">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                  <CheckCircle2 className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-green-600">{results.length}</div>
-                  <div className="text-sm font-medium text-green-700 dark:text-green-400">Documents Reviewed</div>
+                  <div className="text-2xl font-bold text-green-600">{results.length}</div>
+                  <div className="text-xs font-medium text-green-700 dark:text-green-400">Documents Reviewed</div>
                 </div>
               </div>
             </div>
@@ -253,20 +253,20 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
 
           {/* Critical Issues Section */}
           {allCritical.length > 0 && (
-            <Card className="p-6 mb-6">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-red-600">
-                <XCircle className="h-6 w-6" />
+            <Card className="p-4 mb-4">
+              <h2 className="text-xl font-bold mb-3 flex items-center gap-2 text-red-600">
+                <XCircle className="h-5 w-5" />
                 Critical Issues Requiring Immediate Action
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {allCritical.map((item, idx) => (
-                  <div key={idx} className="flex gap-4 p-4 bg-red-50 dark:bg-red-950/20 rounded-lg border border-red-200 dark:border-red-900">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center text-sm font-bold">
+                  <div key={idx} className="flex gap-3 p-3 bg-red-50 dark:bg-red-950/20 rounded-lg border border-red-200 dark:border-red-900">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold">
                       {idx + 1}
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-semibold text-red-600 mb-1">{item.doc}</div>
-                      <div className="text-sm text-foreground leading-relaxed">{item.issue}</div>
+                      <div className="text-xs font-semibold text-red-600 mb-0.5">{item.doc}</div>
+                      <div className="text-sm text-foreground leading-snug">{item.issue}</div>
                     </div>
                   </div>
                 ))}
@@ -276,20 +276,20 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
 
           {/* Warnings Section */}
           {allWarnings.length > 0 && (
-            <Card className="p-6 mb-6">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2 text-yellow-600">
-                <AlertTriangle className="h-6 w-6" />
+            <Card className="p-4 mb-4">
+              <h2 className="text-xl font-bold mb-3 flex items-center gap-2 text-yellow-600">
+                <AlertTriangle className="h-5 w-5" />
                 Warnings & Recommendations
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {allWarnings.map((item, idx) => (
-                  <div key={idx} className="flex gap-4 p-4 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border border-yellow-200 dark:border-yellow-900">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-600 text-white flex items-center justify-center text-sm font-bold">
+                  <div key={idx} className="flex gap-3 p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg border border-yellow-200 dark:border-yellow-900">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-yellow-600 text-white flex items-center justify-center text-xs font-bold">
                       {idx + 1}
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-semibold text-yellow-600 mb-1">{item.doc}</div>
-                      <div className="text-sm text-foreground leading-relaxed">{item.issue}</div>
+                      <div className="text-xs font-semibold text-yellow-600 mb-0.5">{item.doc}</div>
+                      <div className="text-sm text-foreground leading-snug">{item.issue}</div>
                     </div>
                   </div>
                 ))}
@@ -299,10 +299,10 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
 
           {/* All Clear Message */}
           {allCritical.length === 0 && allWarnings.length === 0 && (
-            <Card className="p-12 text-center">
-              <CheckCircle2 className="h-16 w-16 mx-auto mb-4 text-green-600" />
-              <h3 className="text-xl font-semibold text-green-600 mb-2">All Clear!</h3>
-              <p className="text-muted-foreground">No critical issues or warnings found in the review.</p>
+            <Card className="p-8 text-center">
+              <CheckCircle2 className="h-12 w-12 mx-auto mb-3 text-green-600" />
+              <h3 className="text-lg font-semibold text-green-600 mb-1">All Clear!</h3>
+              <p className="text-sm text-muted-foreground">No critical issues or warnings found in the review.</p>
             </Card>
           )}
         </>
@@ -310,8 +310,8 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
 
       {/* Detailed Document Reviews - Collapsible */}
       {session.status === "completed" && results.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold mb-4">Detailed Document Reviews</h2>
+        <div className="space-y-3">
+          <h2 className="text-xl font-bold mb-3">Detailed Document Reviews</h2>
           {results.map((result) => {
             const feedback = result.ai_feedback || ''
             
@@ -369,13 +369,13 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
             return (
               <Card key={result.id} className="overflow-hidden">
                 <button
-                  className="w-full flex items-center justify-between text-left p-6 hover:bg-accent/50 transition-colors"
+                  className="w-full flex items-center justify-between text-left p-4 hover:bg-accent/50 transition-colors"
                   onClick={() => setExpanded({ ...expanded, [result.id]: !isOpen })}
                 >
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                    <h3 className="text-lg font-bold mb-1.5 flex items-center gap-2">
                       {result.node_name}
-                      {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                      {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                     </h3>
                     <div className="flex gap-2">
                       {criticalCount > 0 && (
@@ -401,7 +401,7 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 border-t pt-6">
+                  <div className="px-4 pb-4 border-t pt-4">
                     <DetailedFeedbackSection feedback={feedback} documentName={result.node_name || ''} />
                   </div>
                 )}
@@ -412,9 +412,9 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
       )}
 
       {session.status === "completed" && results.length === 0 && (
-        <Card className="p-12 text-center">
-          <AlertCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-          <p className="text-muted-foreground text-lg">No results available for this review</p>
+        <Card className="p-8 text-center">
+          <AlertCircle className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
+          <p className="text-muted-foreground">No results available for this review</p>
         </Card>
       )}
     </div>
