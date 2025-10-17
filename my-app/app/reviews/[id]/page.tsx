@@ -60,37 +60,45 @@ export default function ReviewDetailPage({ params }: { params: Promise<{ id: str
           <ReviewProgressTracker sessionId={resolvedParams.id} onComplete={handleComplete} />
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <RevisionTimeline
-                revisions={revisions}
-                selectedRevisionId={selectedRevisionId}
-                onSelect={(rid) => setSelectedRevisionId(rid)}
-                onReprocess={async (rid) => {
-                  await fetch(`/api/reviews/${resolvedParams.id}/revisions/${rid}/process`, { method: 'POST' })
-                  checkSessionStatus()
-                }}
-              />
-              <Dialog open={openRevisionDialog} onOpenChange={setOpenRevisionDialog}>
-                <DialogTrigger asChild>
-                  <button className="px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors">New Revision</button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl">
-                  <DialogHeader>
-                    <DialogTitle>Create New Revision</DialogTitle>
-                  </DialogHeader>
-                  <RevisionUploader
-                    sessionId={resolvedParams.id}
-                    onCreated={async (rid) => {
-                      setOpenRevisionDialog(false)
-                      await fetch(`/api/reviews/${resolvedParams.id}/revisions/${rid}/process`, { method: 'POST' })
-                      setSelectedRevisionId(rid)
-                      checkSessionStatus()
-                    }}
-                  />
-                </DialogContent>
-              </Dialog>
-            </div>
-            <ReviewResultsEnhanced sessionId={resolvedParams.id} />
+            <ReviewResultsEnhanced
+              sessionId={resolvedParams.id}
+              belowHeader={(
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="w-full">
+                    <div className="flex items-center justify-between">
+                      <RevisionTimeline
+                        revisions={revisions}
+                        selectedRevisionId={selectedRevisionId}
+                        onSelect={(rid) => setSelectedRevisionId(rid)}
+                        onReprocess={async (rid) => {
+                          await fetch(`/api/reviews/${resolvedParams.id}/revisions/${rid}/process`, { method: 'POST' })
+                          checkSessionStatus()
+                        }}
+                      />
+                      <Dialog open={openRevisionDialog} onOpenChange={setOpenRevisionDialog}>
+                        <DialogTrigger asChild>
+                          <button className="px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors">New Revision</button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Create New Revision</DialogTitle>
+                          </DialogHeader>
+                          <RevisionUploader
+                            sessionId={resolvedParams.id}
+                            onCreated={async (rid) => {
+                              setOpenRevisionDialog(false)
+                              await fetch(`/api/reviews/${resolvedParams.id}/revisions/${rid}/process`, { method: 'POST' })
+                              setSelectedRevisionId(rid)
+                              checkSessionStatus()
+                            }}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
           </div>
         )}
       </div>

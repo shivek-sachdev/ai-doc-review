@@ -9,6 +9,7 @@ import type { ReviewResult } from "@/lib/db"
 
 interface ReviewResultsEnhancedProps {
   sessionId: string
+  belowHeader?: React.ReactNode
 }
 
 interface SessionData {
@@ -22,7 +23,7 @@ interface SessionData {
   results: ReviewResult[]
 }
 
-export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps) {
+export function ReviewResultsEnhanced({ sessionId, belowHeader }: ReviewResultsEnhancedProps) {
   const [data, setData] = useState<SessionData | null>(null)
   const [loading, setLoading] = useState(true)
   const [processing, setProcessing] = useState(false)
@@ -89,6 +90,9 @@ export function ReviewResultsEnhanced({ sessionId }: ReviewResultsEnhancedProps)
         <AlertCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
         <p className="text-muted-foreground text-lg">Failed to load review session</p>
       </Card>
+
+      {/* Slot directly below header */}
+      {belowHeader}
     )
   }
 
