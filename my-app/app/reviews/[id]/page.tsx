@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { ReviewResultsEnhanced } from "@/components/review-results-enhanced"
 import { RevisionTimeline } from "@/components/revision-timeline"
 import { RevisionUploader } from "@/components/revision-uploader"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ReviewProgressTracker } from "@/components/review-progress-tracker"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
@@ -16,6 +17,7 @@ export default function ReviewDetailPage({ params }: { params: Promise<{ id: str
   const [sessionStatus, setSessionStatus] = useState<string>('loading')
   const [revisions, setRevisions] = useState<any[]>([])
   const [selectedRevisionId, setSelectedRevisionId] = useState<string | undefined>(undefined)
+  const [openRevisionDialog, setOpenRevisionDialog] = useState(false)
 
   useEffect(() => {
     checkSessionStatus()
@@ -57,8 +59,8 @@ export default function ReviewDetailPage({ params }: { params: Promise<{ id: str
         {sessionStatus === 'pending' || sessionStatus === 'processing' ? (
           <ReviewProgressTracker sessionId={resolvedParams.id} onComplete={handleComplete} />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-1 space-y-4">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
               <RevisionTimeline
                 revisions={revisions}
                 selectedRevisionId={selectedRevisionId}
@@ -68,21 +70,27 @@ export default function ReviewDetailPage({ params }: { params: Promise<{ id: str
                   checkSessionStatus()
                 }}
               />
-              {/* Load template nodes for uploader */}
-              <RevisionUploader
-                sessionId={resolvedParams.id}
-                templateNodes={[] as any}
-                onCreated={async (rid) => {
-                  // Immediately process the new revision
-                  await fetch(`/api/reviews/${resolvedParams.id}/revisions/${rid}/process`, { method: 'POST' })
-                  setSelectedRevisionId(rid)
-                  checkSessionStatus()
-                }}
-              />
+              <Dialog open={openRevisionDialog} onOpenChange={setOpenRevisionDialog}>
+                <DialogTrigger asChild>
+                  <button className="px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors">New Revision</button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Create New Revision</DialogTitle>
+                  </DialogHeader>
+                  <RevisionUploader
+                    sessionId={resolvedParams.id}
+                    onCreated={async (rid) => {
+                      setOpenRevisionDialog(false)
+                      await fetch(`/api/reviews/${resolvedParams.id}/revisions/${rid}/process`, { method: 'POST' })
+                      setSelectedRevisionId(rid)
+                      checkSessionStatus()
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
-            <div className="md:col-span-2">
-              <ReviewResultsEnhanced sessionId={resolvedParams.id} />
-            </div>
+            <ReviewResultsEnhanced sessionId={resolvedParams.id} />
           </div>
         )}
       </div>

@@ -5,8 +5,16 @@ import path from "path"
 
 export async function POST() {
   try {
-    const filePath = path.join(process.cwd(), "my-app", "scripts", "004_add_review_revisions.sql")
-    const ddl = await readFile(filePath, "utf-8")
+    // Try scripts path relative to current working directory (Next app root)
+    let filePath = path.join(process.cwd(), "scripts", "004_add_review_revisions.sql")
+    let ddl: string
+    try {
+      ddl = await readFile(filePath, "utf-8")
+    } catch {
+      // Fallback: when cwd is the monorepo root
+      filePath = path.join(process.cwd(), "my-app", "scripts", "004_add_review_revisions.sql")
+      ddl = await readFile(filePath, "utf-8")
+    }
     // Split on semicolons that end statements to avoid driver limitations
     const statements = ddl
       .split(/;\s*\n/)
