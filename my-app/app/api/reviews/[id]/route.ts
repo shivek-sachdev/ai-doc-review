@@ -16,13 +16,19 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: "Session not found" }, { status: 404 })
     }
 
-    // Revisions list
-    const revisions = await sql`
-      SELECT id, revision_number, status, created_at, completed_at
-      FROM review_revisions
-      WHERE session_id = ${id}
-      ORDER BY revision_number
-    `
+    // Revisions list (graceful if table not created yet)
+    let revisions: any[] = []
+    try {
+      revisions = await sql`
+        SELECT id, revision_number, status, created_at, completed_at
+        FROM review_revisions
+        WHERE session_id = ${id}
+        ORDER BY revision_number
+      `
+    } catch (e) {
+      // Table might not exist yet (migration not applied); continue without revisions
+      revisions = []
+    }
 
     // Results: default to latest revision if available
     let resultsResult: any[] = []
